@@ -1,28 +1,6 @@
-(add-to-list 'load-path "~/.emacs.d/better-defaults" )
-(add-to-list 'load-path "~/.emacs.d/evil" )
-(require 'better-defaults)
-(require 'package)
-;; Evil gives us vim bindings
-(require 'evil)
-(evil-mode)
-;; for debuging missing parens.
-(show-paren-mode 1)
-;; BEGIN use-package configuration
-(setq package-enable-at-startup nil) ; do not load packages at startup
-;; Get new packages from these repositorys
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ))
-(package-initialize)
-
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package) ; unless it is already installed
-  (package-refresh-contents) ; updage packages archive
-  (package-install 'use-package)) ; and install the most recent version of use-package
-
-(require 'use-package) ; let us now use use-package for loading packages
-;; END use-package configuration
+(load-file (expand-file-name "core/load-paths.el" user-emacs-directory))
+(require 'core-wurstmacs)
+(wurstmacs/init)
 
 ;; BEGIN default key bindings
 (use-package general :ensure t)
@@ -63,6 +41,8 @@
  "j" '(:ignore t :which-key "join/split")
  "m" '(:ignore t :which-key "major-mode-cmd")
  "n" '(:ignore t :which-key "narrow")
+ "o" '(:ignore t :which-key "org")
+ "oa" 'org-agenda
  "p" '(:ignore t :which-key "project")
  "pf" 'counsel-git        ; find file in git project
  "pg" 'counsel-git-grep   ; find string in git project
@@ -72,6 +52,8 @@
  "S" '(:ignore t :which-key "spelling")
  "t" '(:ignore t :which-key "toggle/theme")
  "w" '(:ignore t :which-key "windows")
+ "wv" 'split-window-right
+ "ws" 'split-window-below
  "z" '(:ignore t :which-key "zoom")
 
  ;; simple command
@@ -79,6 +61,7 @@
  "?"   '(iterm-goto-filedir-or-home :which-key "iterm - goto dir")
  "/"   'counsel-ag
  "SPC" '(avy-goto-word-or-subword-1  :which-key "avy word")
+ )
 
 ;; END default key bindings
 (use-package counsel :ensure t)
@@ -115,6 +98,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/Yandex.Disk/org/week.org")))
  '(package-selected-packages
    (quote
     (doom-modeline which-key use-package general counsel base16-theme avy))))
